@@ -29,9 +29,9 @@ export async function POST(req: Request) {
       useLocalDb = true;
     }
 
-    const jwtSecret = process.env.JWT_SECRET;
+    const jwtSecret = process.env.JWT_SECRET || (process.env.NODE_ENV !== "production" ? "dev-insecure-jwt-secret" : undefined);
     if (!jwtSecret) {
-      console.error("JWT_SECRET not defined");
+      console.error("JWT_SECRET not defined in production");
       return NextResponse.json({ message: "Server configuration error" }, { status: 500 });
     }
 
